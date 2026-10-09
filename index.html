@@ -1,0 +1,1440 @@
+<!DOCTYPE html>
+<html lang="tr" class="dark">
+<head>
+<meta name="google-site-verification" content="Waq_3003kzfhMrO4adJC0ZsnaCmuVpitHBNOQEQoZtE" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GukHindi - Resmi Oyun Sunucusu Portalı</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icon Set -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@500;700&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            yellow: '#FFE600',
+                            gold: '#FACC15',
+                            dark: '#0B0C10',
+                            card: 'rgba(20, 20, 25, 0.82)',
+                            accent: '#22232B'
+                        }
+                    },
+                    fontFamily: {
+                        heading: ['Teko', 'sans-serif'],
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            background-color: #050507;
+            color: #f3f4f6;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .font-heading {
+            font-family: 'Teko', sans-serif;
+            letter-spacing: 1px;
+        }
+
+        /* GukHindi Visual Background Wall Art */
+        .guk-bg {
+            background-color: #060608;
+            background-image: 
+                radial-gradient(circle at 50% 45%, rgba(255, 230, 0, 0.15) 0%, rgba(5, 5, 8, 0.95) 75%),
+                linear-gradient(135deg, rgba(10,10,12,0.95) 0%, rgba(2,2,4,0.98) 100%);
+            background-attachment: fixed;
+            position: relative;
+        }
+
+        /* Speed lines overlay */
+        .wallpaper-overlay {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 2;
+            overflow: hidden;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0d0e12;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #FFE600;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #e6ce00;
+        }
+
+        .border-glow {
+            box-shadow: 0 0 20px rgba(255, 230, 0, 0.15);
+            border: 1px solid rgba(255, 230, 0, 0.3);
+        }
+
+        .glass-panel {
+            background: rgba(15, 16, 22, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 230, 0, 0.18);
+        }
+
+        @keyframes crownPulse {
+            0%, 100% { transform: translateY(0) scale(1); filter: drop-shadow(0 0 8px rgba(255, 230, 0, 0.6)); }
+            50% { transform: translateY(-4px) scale(1.05); filter: drop-shadow(0 0 16px rgba(255, 230, 0, 0.9)); }
+        }
+        .crown-icon {
+            animation: crownPulse 3s infinite ease-in-out;
+        }
+
+        canvas#bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .content-layer {
+            position: relative;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body class="guk-bg min-h-screen text-gray-200 antialiased selection:bg-brand-yellow selection:text-black">
+
+    <!-- Wallpaper Speed Rays Layer -->
+    <div class="wallpaper-overlay">
+        <svg class="absolute top-0 left-0 w-64 md:w-96 h-64 md:h-96" viewBox="0 0 300 300" fill="none">
+            <polygon points="0,0 220,0 0,90" fill="#FFE600" opacity="0.9"/>
+            <polygon points="0,110 160,0 185,0 0,125" fill="#FFFFFF" opacity="0.85"/>
+            <polygon points="0,150 270,0 295,0 0,175" fill="#FFE600" opacity="0.95"/>
+        </svg>
+
+        <svg class="absolute top-0 right-0 w-64 md:w-96 h-64 md:h-96" viewBox="0 0 300 300" fill="none">
+            <polygon points="300,0 80,0 300,90" fill="#FFE600" opacity="0.9"/>
+            <polygon points="300,110 140,0 115,0 300,125" fill="#FFFFFF" opacity="0.85"/>
+            <polygon points="300,150 30,0 5,0 300,175" fill="#FFE600" opacity="0.95"/>
+        </svg>
+
+        <svg class="absolute bottom-0 left-0 w-64 md:w-96 h-64 md:h-96" viewBox="0 0 300 300" fill="none">
+            <polygon points="0,300 220,300 0,210" fill="#FFE600" opacity="0.9"/>
+            <polygon points="0,190 160,300 185,300 0,175" fill="#FFFFFF" opacity="0.85"/>
+            <polygon points="0,150 270,300 295,300 0,125" fill="#FFE600" opacity="0.95"/>
+        </svg>
+
+        <svg class="absolute bottom-0 right-0 w-64 md:w-96 h-64 md:h-96" viewBox="0 0 300 300" fill="none">
+            <polygon points="300,300 80,300 300,210" fill="#FFE600" opacity="0.9"/>
+            <polygon points="300,190 140,300 115,300 300,175" fill="#FFFFFF" opacity="0.85"/>
+            <polygon points="300,150 30,300 5,300 300,125" fill="#FFE600" opacity="0.95"/>
+        </svg>
+    </div>
+
+    <!-- Canvas Background Sparks -->
+    <canvas id="bg-canvas"></canvas>
+
+    <div class="content-layer min-h-screen flex flex-col">
+
+        <!-- OYUNCU / YETKİLİ ADI GİRİŞ MODALI -->
+        <div id="login-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md transition-opacity duration-500">
+            <div class="glass-panel p-8 md:p-10 rounded-2xl max-w-md w-full text-center border-glow relative overflow-hidden shadow-2xl">
+                <div class="mb-4 inline-block text-brand-yellow crown-icon">
+                    <i class="fa-solid fa-crown text-6xl"></i>
+                </div>
+                
+                <h1 class="font-heading text-5xl tracking-widest text-white uppercase mb-1">
+                    <span class="text-brand-yellow">GUK</span>HINDI
+                </h1>
+                <p class="text-xs uppercase tracking-widest text-gray-400 font-semibold mb-6">Sunucu Portalına Hoş Geldiniz</p>
+                
+                <form id="login-form" onsubmit="handleLogin(event)" class="space-y-4">
+                    <div class="text-left">
+                        <label for="username-input" class="block text-xs uppercase tracking-wider text-brand-yellow font-bold mb-2">
+                            <i class="fa-solid fa-user-ninja mr-1"></i> Oyuncu Adınız veya Yetkili Nick
+                        </label>
+                        <input type="text" id="username-input" required maxlength="20" placeholder="Örn: KralGuk veya Yetkili Nick" 
+                            class="w-full px-4 py-3 bg-black/60 border border-brand-yellow/30 rounded-xl focus:border-brand-yellow focus:ring-2 focus:ring-brand-yellow/30 text-white placeholder-gray-500 outline-none transition font-semibold">
+                    </div>
+
+                    <!-- Optional Admin Key Field -->
+                    <div class="text-left">
+                        <div class="flex items-center justify-between mb-1">
+                            <label for="admin-key-input" class="text-[11px] uppercase tracking-wider text-gray-400 font-bold">
+                                <i class="fa-solid fa-key mr-1 text-brand-yellow"></i> Yönetici Şifresi (Sadece Yetkili İçin)
+                            </label>
+                            <span class="text-[10px] text-gray-500">(İsteğe bağlı)</span>
+                        </div>
+                        <input type="password" id="admin-key-input" placeholder="Yönetici Şifreniz" 
+                            class="w-full px-4 py-2.5 bg-black/60 border border-brand-yellow/20 rounded-xl focus:border-brand-yellow text-white text-xs placeholder-gray-600 outline-none transition">
+                    </div>
+                    
+                    <button type="submit" 
+                        class="w-full py-3.5 px-6 bg-gradient-to-r from-brand-yellow to-yellow-500 hover:from-yellow-400 hover:to-brand-yellow text-black font-extrabold uppercase tracking-wider rounded-xl shadow-lg shadow-yellow-500/20 transform hover:-translate-y-0.5 transition cursor-pointer flex items-center justify-center gap-2">
+                        <span>Portala Giriş Yap</span>
+                        <i class="fa-solid fa-arrow-right-long"></i>
+                    </button>
+                </form>
+
+                <div class="mt-5 text-[11px] text-gray-400 border-t border-brand-yellow/10 pt-4">
+                    <p><i class="fa-solid fa-shield-halved text-brand-yellow mr-1"></i> Yetkili nick veya şifre ile girerek kuralları ve duyuruları yönetebilirsiniz.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ÜST BAR (TOPBAR) -->
+        <header class="sticky top-0 z-40 glass-panel border-b border-brand-yellow/20 px-4 lg:px-8 py-3">
+            <div class="max-w-7xl mx-auto flex items-center justify-between">
+                
+                <!-- Sol Menü Butonu (3 Çizgi) -->
+                <div class="flex items-center gap-4">
+                    <button onclick="toggleSidebar()" aria-label="Menüyü Aç"
+                        class="p-2.5 rounded-xl bg-brand-accent/80 hover:bg-brand-yellow hover:text-black border border-brand-yellow/30 text-brand-yellow transition-all duration-300 shadow-md group cursor-pointer">
+                        <i class="fa-solid fa-bars text-xl group-hover:scale-110 transition-transform"></i>
+                    </button>
+                    
+                    <div class="flex items-center gap-3 cursor-pointer" onclick="switchTab('home')">
+                        <i class="fa-solid fa-crown text-2xl text-brand-yellow crown-icon"></i>
+                        <span class="font-heading text-3xl font-bold tracking-wider text-white">
+                            <span class="text-brand-yellow">GUK</span>HINDI
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Sunucu Durumu Ve Kullanıcı / Admin Bilgisi -->
+                <div class="flex items-center gap-3">
+                    <div class="hidden sm:flex items-center gap-2 bg-black/50 border border-brand-yellow/30 px-3.5 py-1.5 rounded-xl">
+                        <span class="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse"></span>
+                        <span class="text-xs font-mono text-gray-300">play.gukhindi.com</span>
+                        <button onclick="copyIP('play.gukhindi.com')" class="text-brand-yellow hover:text-white transition ml-1" title="IP Kopyala">
+                            <i class="fa-solid fa-copy"></i>
+                        </button>
+                    </div>
+
+                    <!-- Aktif Kullanıcı / Admin Etiketi -->
+                    <div id="user-badge" class="hidden flex items-center gap-2 bg-brand-yellow/10 border border-brand-yellow/30 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-semibold text-brand-yellow">
+                        <i id="user-badge-icon" class="fa-solid fa-user-circle text-base"></i>
+                        <span id="display-user-name">Oyuncu</span>
+                        <span id="admin-indicator" class="hidden px-2 py-0.5 bg-red-500 text-white text-[10px] font-extrabold rounded-full uppercase">YÖNETİCİ</span>
+                        <button onclick="logout()" class="text-gray-400 hover:text-red-400 transition ml-1" title="Çıkış / İsim Değiştir">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </header>
+
+        <!-- SOL YAN MENÜ (3 ÇİZGİ MENÜSÜ) -->
+        <div id="sidebar-overlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 opacity-0 pointer-events-none transition-opacity duration-300"></div>
+        
+        <aside id="sidebar" class="fixed top-0 left-0 bottom-0 w-80 max-w-[85vw] glass-panel border-r border-brand-yellow/30 z-50 transform -translate-x-full transition-transform duration-300 ease-out flex flex-col justify-between">
+            <div>
+                <div class="p-6 border-b border-brand-yellow/20 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-crown text-3xl text-brand-yellow"></i>
+                        <div>
+                            <h2 class="font-heading text-3xl leading-none text-white font-bold"><span class="text-brand-yellow">GUK</span>HINDI</h2>
+                            <p class="text-[10px] tracking-widest uppercase text-gray-400 font-semibold">Ana Navigasyon</p>
+                        </div>
+                    </div>
+                    <button onclick="toggleSidebar()" class="text-gray-400 hover:text-brand-yellow transition text-xl p-1 cursor-pointer">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <nav class="p-4 space-y-2">
+                    <button onclick="switchTab('home')" class="nav-btn active w-full flex items-center gap-4 px-4 py-3.5 rounded-xl font-semibold text-left transition hover:bg-brand-yellow/10 text-gray-300 hover:text-brand-yellow border border-transparent hover:border-brand-yellow/20" data-tab="home">
+                        <i class="fa-solid fa-house text-lg w-6 text-center text-brand-yellow"></i>
+                        <span>Ana Sayfa</span>
+                    </button>
+
+                    <button onclick="switchTab('duyurular')" class="nav-btn w-full flex items-center gap-4 px-4 py-3.5 rounded-xl font-semibold text-left transition hover:bg-brand-yellow/10 text-gray-300 hover:text-brand-yellow border border-transparent hover:border-brand-yellow/20" data-tab="duyurular">
+                        <i class="fa-solid fa-bullhorn text-lg w-6 text-center text-brand-yellow"></i>
+                        <span>Sunucu Duyuruları</span>
+                        <span id="announcement-count-badge" class="ml-auto bg-brand-yellow text-black text-xs font-bold px-2 py-0.5 rounded-full">0</span>
+                    </button>
+
+                    <button onclick="switchTab('kurallar')" class="nav-btn w-full flex items-center gap-4 px-4 py-3.5 rounded-xl font-semibold text-left transition hover:bg-brand-yellow/10 text-gray-300 hover:text-brand-yellow border border-transparent hover:border-brand-yellow/20" data-tab="kurallar">
+                        <i class="fa-solid fa-gavel text-lg w-6 text-center text-brand-yellow"></i>
+                        <span>Sunucu Kuralları</span>
+                    </button>
+
+                    <button onclick="switchTab('hikaye')" class="nav-btn w-full flex items-center gap-4 px-4 py-3.5 rounded-xl font-semibold text-left transition hover:bg-brand-yellow/10 text-gray-300 hover:text-brand-yellow border border-transparent hover:border-brand-yellow/20" data-tab="hikaye">
+                        <i class="fa-solid fa-scroll text-lg w-6 text-center text-brand-yellow"></i>
+                        <span>Oyun Hikayesi</span>
+                    </button>
+
+                    <button onclick="switchTab('bilgiler')" class="nav-btn w-full flex items-center gap-4 px-4 py-3.5 rounded-xl font-semibold text-left transition hover:bg-brand-yellow/10 text-gray-300 hover:text-brand-yellow border border-transparent hover:border-brand-yellow/20" data-tab="bilgiler">
+                        <i class="fa-solid fa-circle-info text-lg w-6 text-center text-brand-yellow"></i>
+                        <span>Sunucu Bilgileri</span>
+                    </button>
+
+                    <button onclick="switchTab('oyuncular')" class="nav-btn w-full flex items-center gap-4 px-4 py-3.5 rounded-xl font-semibold text-left transition hover:bg-brand-yellow/10 text-gray-300 hover:text-brand-yellow border border-transparent hover:border-brand-yellow/20" data-tab="oyuncular">
+                        <i class="fa-solid fa-comments text-lg w-6 text-center text-brand-yellow"></i>
+                        <span>Oyuncu Duvarı & Chat</span>
+                        <span id="chat-count-badge" class="ml-auto bg-brand-yellow/20 text-brand-yellow text-xs font-bold px-2 py-0.5 rounded-full border border-brand-yellow/30">0</span>
+                    </button>
+                </nav>
+            </div>
+
+            <div class="p-6 border-t border-brand-yellow/20 space-y-3">
+                <div class="bg-black/40 p-3 rounded-xl border border-brand-yellow/10 text-xs">
+                    <p class="text-gray-400 mb-1">Sunucu IP:</p>
+                    <p class="font-mono text-brand-yellow font-bold select-all">play.gukhindi.com</p>
+                </div>
+                <div class="flex items-center justify-between text-xs text-gray-500 pt-1">
+                    <span>© 2026 GukHindi</span>
+                    <span id="admin-sidebar-status" class="text-brand-yellow font-bold">Oyuncu Modu</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- ANA İÇERİK ALANI -->
+        <main class="flex-1 max-w-7xl w-full mx-auto px-4 lg:px-8 py-8">
+
+            <!-- TAB 1: ANA SAYFA BANNER VE ÖZET -->
+            <section id="tab-home" class="tab-content space-y-8">
+                <div class="glass-panel p-8 md:p-12 rounded-3xl border-glow relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8">
+                    <div class="absolute -right-20 -bottom-20 w-96 h-96 bg-brand-yellow/20 rounded-full blur-3xl pointer-events-none"></div>
+
+                    <div class="space-y-4 max-w-2xl text-center md:text-left z-10">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 bg-brand-yellow/10 border border-brand-yellow/30 rounded-full text-brand-yellow text-xs font-bold uppercase tracking-widest">
+                            <i class="fa-solid fa-crown"></i> GUKHINDI RESMİ SUNUCU PORTALI
+                        </div>
+
+                        <div class="py-2">
+                            <i class="fa-solid fa-crown text-5xl text-brand-yellow crown-icon mb-1 block"></i>
+                            <h1 class="font-heading text-6xl md:text-8xl font-extrabold tracking-wider leading-none">
+                                <span class="text-brand-yellow inline-block transform -rotate-1 drop-shadow-[0_0_20px_rgba(255,230,0,0.5)]">Guk</span><span class="text-white inline-block transform rotate-1">Hindi</span>
+                            </h1>
+                            <div class="h-1.5 w-48 bg-gradient-to-r from-brand-yellow via-white to-transparent rounded-full mt-1 mx-auto md:mx-0"></div>
+                        </div>
+
+                        <p class="text-gray-300 text-base md:text-lg leading-relaxed">
+                            GukHindi efsanesine hoş geldin! Sunucu duyurularını takip et, kurallara göz at ve topluluk alanında diğer oyuncularla etkileşime geç.
+                        </p>
+                        <div class="pt-2 flex flex-wrap gap-4 justify-center md:justify-start">
+                            <button onclick="switchTab('duyurular')" class="px-6 py-3.5 bg-brand-yellow hover:bg-yellow-400 text-black font-extrabold rounded-xl shadow-lg shadow-yellow-500/20 uppercase tracking-wider transition flex items-center gap-2 cursor-pointer">
+                                <i class="fa-solid fa-bullhorn"></i> Sunucu Duyuruları
+                            </button>
+                            <button onclick="switchTab('kurallar')" class="px-6 py-3.5 bg-black/60 hover:bg-black/80 border border-brand-yellow/30 text-white font-bold rounded-xl transition flex items-center gap-2 cursor-pointer">
+                                <i class="fa-solid fa-shield-halved text-brand-yellow"></i> Sunucu Kuralları
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="relative z-10 flex flex-col items-center justify-center p-6 bg-black/80 border border-brand-yellow/40 rounded-2xl w-full md:w-80 text-center shadow-2xl">
+                        <div class="relative p-4 border border-brand-yellow/20 rounded-xl bg-black/60 w-full overflow-hidden">
+                            <i class="fa-solid fa-crown text-6xl text-brand-yellow crown-icon my-2"></i>
+                            <div class="font-heading text-4xl font-extrabold text-white tracking-widest uppercase">
+                                <span class="text-brand-yellow">Guk</span>Hindi
+                            </div>
+                            <p class="text-[10px] text-gray-400 uppercase tracking-widest mt-1">Official Server Portal</p>
+                        </div>
+                        <div class="w-full border-t border-brand-yellow/20 my-4"></div>
+                        <div class="flex items-center justify-between w-full text-xs text-gray-300">
+                            <span>Yönetici Modu:</span>
+                            <span id="home-admin-status-text" class="text-gray-400 font-bold">Pasif (Oyuncu)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hızlı Bilgi Kartları -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div onclick="switchTab('duyurular')" class="glass-panel p-6 rounded-2xl border-glow hover:border-brand-yellow cursor-pointer transition transform hover:-translate-y-1">
+                        <div class="w-12 h-12 rounded-xl bg-brand-yellow/10 border border-brand-yellow/30 flex items-center justify-center text-brand-yellow text-2xl mb-4">
+                            <i class="fa-solid fa-bullhorn"></i>
+                        </div>
+                        <h3 class="font-heading text-3xl text-white font-bold">Resmi Duyurular</h3>
+                        <p class="text-gray-400 text-sm mt-2">Sunucu kurucusunun paylaştığı en son güncellemeler ve etkinlik bildirimleri.</p>
+                        <span class="inline-flex items-center gap-1 text-xs font-bold text-brand-yellow mt-4">Duyuruları Gör <i class="fa-solid fa-chevron-right text-[10px]"></i></span>
+                    </div>
+
+                    <div onclick="switchTab('kurallar')" class="glass-panel p-6 rounded-2xl border-glow hover:border-brand-yellow cursor-pointer transition transform hover:-translate-y-1">
+                        <div class="w-12 h-12 rounded-xl bg-brand-yellow/10 border border-brand-yellow/30 flex items-center justify-center text-brand-yellow text-2xl mb-4">
+                            <i class="fa-solid fa-gavel"></i>
+                        </div>
+                        <h3 class="font-heading text-3xl text-white font-bold">Sunucu Kuralları</h3>
+                        <p class="text-gray-400 text-sm mt-2">Adil oyun ortamı için geçerli kurallar. (Yetkililer tarafından düzenlenebilir)</p>
+                        <span class="inline-flex items-center gap-1 text-xs font-bold text-brand-yellow mt-4">Kuralları İncele <i class="fa-solid fa-chevron-right text-[10px]"></i></span>
+                    </div>
+
+                    <div onclick="switchTab('oyuncular')" class="glass-panel p-6 rounded-2xl border-glow hover:border-brand-yellow cursor-pointer transition transform hover:-translate-y-1">
+                        <div class="w-12 h-12 rounded-xl bg-brand-yellow/10 border border-brand-yellow/30 flex items-center justify-center text-brand-yellow text-2xl mb-4">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+                        <h3 class="font-heading text-3xl text-white font-bold">Oyuncu Duvarı</h3>
+                        <p class="text-gray-400 text-sm mt-2">Topluluk üyelerinin sohbet ettiği, fikirlerini paylaştığı canlı mesajlaşma alanı.</p>
+                        <span class="inline-flex items-center gap-1 text-xs font-bold text-brand-yellow mt-4">Sohbete Katıl <i class="fa-solid fa-chevron-right text-[10px]"></i></span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 2: RESMİ DUYURULAR -->
+            <section id="tab-duyurular" class="tab-content hidden space-y-6">
+                <div class="glass-panel p-6 md:p-8 rounded-2xl border-glow">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-brand-yellow/20">
+                        <div class="flex items-center gap-4">
+                            <div class="p-3 bg-brand-yellow/10 border border-brand-yellow/30 rounded-xl text-brand-yellow text-3xl">
+                                <i class="fa-solid fa-bullhorn"></i>
+                            </div>
+                            <div>
+                                <h2 class="font-heading text-4xl font-bold text-white uppercase">SUNUCU DUYURULARI</h2>
+                                <p class="text-xs text-gray-400">Yalnızca sunucu yöneticisi tarafından yayınlanan resmi duyurular</p>
+                            </div>
+                        </div>
+
+                        <!-- Admin announcement status indicator -->
+                        <div id="admin-announcement-status" class="text-xs px-3.5 py-2 bg-black/60 rounded-xl border border-brand-yellow/20 flex items-center gap-2">
+                            <i class="fa-solid fa-shield text-brand-yellow"></i>
+                            <span class="text-gray-300">Yönetici Modu: <strong id="announcement-admin-text" class="text-red-400">Pasif</strong></span>
+                        </div>
+                    </div>
+
+                    <!-- YETKİLİ DUYURU FORMU (Sadece Admin yetkisinde görünür) -->
+                    <div id="admin-announcement-panel" class="hidden mb-8 bg-black/80 p-5 rounded-2xl border-2 border-brand-yellow/50 shadow-2xl space-y-4">
+                        <div class="flex items-center justify-between border-b border-brand-yellow/20 pb-3">
+                            <h3 class="font-heading text-2xl font-bold text-brand-yellow flex items-center gap-2">
+                                <i class="fa-solid fa-pen-to-square"></i> Yönertici Paneli: Yeni Duyuru Yayınla
+                            </h3>
+                            <span class="px-2.5 py-1 bg-brand-yellow text-black text-[10px] font-extrabold uppercase rounded-full">Yetkili Modu</span>
+                        </div>
+
+                        <form onsubmit="handleAnnouncementSubmit(event)" class="space-y-4">
+                            <div>
+                                <label class="block text-xs uppercase tracking-wider text-gray-300 font-bold mb-1">Duyuru Başlığı</label>
+                                <input type="text" id="announcement-title" required placeholder="Örn: 2.4 Büyük Güncelleme Yayımlandı!" 
+                                    class="w-full px-4 py-2.5 bg-black/60 border border-brand-yellow/30 rounded-xl focus:border-brand-yellow text-white text-sm outline-none">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs uppercase tracking-wider text-gray-300 font-bold mb-1">Duyuru İçeriği</label>
+                                <textarea id="announcement-content" rows="4" required placeholder="Tüm oyunculara iletilecek detaylı duyuru metni..." 
+                                    class="w-full px-4 py-2.5 bg-black/60 border border-brand-yellow/30 rounded-xl focus:border-brand-yellow text-white text-sm outline-none resize-none"></textarea>
+                            </div>
+
+                            <div class="flex items-center justify-between pt-2">
+                                <span class="text-xs text-gray-400"><i class="fa-solid fa-circle-check text-brand-yellow mr-1"></i> Bu duyuru anında tüm oyunculara görüntülenecektir.</span>
+                                <button type="submit" class="px-6 py-2.5 bg-brand-yellow hover:bg-yellow-400 text-black font-extrabold rounded-xl text-sm transition flex items-center gap-2 shadow-lg shadow-yellow-500/20 cursor-pointer">
+                                    <i class="fa-solid fa-paper-plane"></i> Duyuruyu Yayınla
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- DUYURULAR LİSTESİ -->
+                    <div id="announcements-container" class="space-y-6">
+                        <!-- JS Dinamik Duyurular -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 3: SUNUCU KURALLARI (Düzenlenebilir Panel) -->
+            <section id="tab-kurallar" class="tab-content hidden space-y-6">
+                <div class="glass-panel p-6 md:p-8 rounded-2xl border-glow">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-brand-yellow/20">
+                        <div class="flex items-center gap-4">
+                            <div class="p-3 bg-brand-yellow/10 border border-brand-yellow/30 rounded-xl text-brand-yellow text-3xl">
+                                <i class="fa-solid fa-scale-balanced"></i>
+                            </div>
+                            <div>
+                                <h2 class="font-heading text-4xl font-bold text-white uppercase">SUNUCU KURALLARI</h2>
+                                <p class="text-xs text-gray-400">GukHindi topluluğunda adalet için geçerli kurallar</p>
+                            </div>
+                        </div>
+
+                        <!-- Admin Rule Control Button -->
+                        <button id="admin-add-rule-btn" onclick="openAddRuleModal()" class="hidden px-4 py-2 bg-brand-yellow text-black font-bold text-xs rounded-xl hover:bg-yellow-400 transition flex items-center gap-2 cursor-pointer shadow-md">
+                            <i class="fa-solid fa-plus"></i> Yeni Kural Ekle
+                        </button>
+                    </div>
+
+                    <div id="rules-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- JS Dinamik Kurallar -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 4: OYUN HİKAYESİ -->
+        <section id="tab-hikaye" class="tab-content hidden space-y-6">
+            <div class="glass-panel p-6 md:p-10 rounded-2xl border-glow relative overflow-hidden">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 pb-4 border-b border-brand-yellow/20">
+                    <div class="flex items-center gap-4">
+                        <div class="p-3 bg-brand-yellow/10 border border-brand-yellow/30 rounded-xl text-brand-yellow text-3xl">
+                            <i class="fa-solid fa-book-journal-whills"></i>
+                        </div>
+                        <div>
+                            <h2 class="font-heading text-4xl font-bold text-white uppercase">GUKHINDI EFSANESİ</h2>
+                            <p class="text-xs text-gray-400">Altın Tacın ve Unutulmuş Toprakların Hikayesi</p>
+                        </div>
+                    </div>
+
+                    <!-- Admin Edit Story Button -->
+                    <button id="admin-edit-story-btn" onclick="openEditStoryModal()" class="hidden px-4 py-2 bg-brand-yellow text-black font-bold text-xs rounded-xl hover:bg-yellow-400 transition flex items-center gap-2 cursor-pointer shadow-md">
+                        <i class="fa-solid fa-pen"></i> Hikayeyi Düzenle
+                    </button>
+                </div>
+
+                <div id="story-container" class="prose prose-invert max-w-none space-y-6 text-gray-300 text-base leading-relaxed">
+                    <!-- Dynamic Story Content rendered via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 5: SUNUCU BİLGİLERİ -->
+        <section id="tab-bilgiler" class="tab-content hidden space-y-6">
+            <div class="glass-panel p-6 md:p-8 rounded-2xl border-glow">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-brand-yellow/20">
+                    <div class="flex items-center gap-4">
+                        <div class="p-3 bg-brand-yellow/10 border border-brand-yellow/30 rounded-xl text-brand-yellow text-3xl">
+                            <i class="fa-solid fa-circle-info"></i>
+                        </div>
+                        <div>
+                            <h2 class="font-heading text-4xl font-bold text-white uppercase">SUNUCU BİLGİLERİ & ÖZELLİKLERİ</h2>
+                            <p class="text-xs text-gray-400">GukHindi teknik detayları ve oyun içi sistemler</p>
+                        </div>
+                    </div>
+
+                    <!-- Admin Edit Info Button -->
+                    <button id="admin-edit-info-btn" onclick="openEditInfoModal()" class="hidden px-4 py-2 bg-brand-yellow text-black font-bold text-xs rounded-xl hover:bg-yellow-400 transition flex items-center gap-2 cursor-pointer shadow-md">
+                        <i class="fa-solid fa-pen"></i> Bilgileri Düzenle
+                    </button>
+                </div>
+
+                <div id="info-stats-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                    <!-- Dynamic Info Stats Cards rendered via JS -->
+                </div>
+
+                <div id="info-details-container" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Dynamic Info Detail Cards rendered via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 6: OYUNCULAR DUVARI / SOHBET -->
+            <section id="tab-oyuncular" class="tab-content hidden space-y-6">
+                <div class="glass-panel p-6 md:p-8 rounded-2xl border-glow">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-brand-yellow/20">
+                        <div class="flex items-center gap-4">
+                            <div class="p-3 bg-brand-yellow/10 border border-brand-yellow/30 rounded-xl text-brand-yellow text-3xl">
+                                <i class="fa-solid fa-comments"></i>
+                            </div>
+                            <div>
+                                <h2 class="font-heading text-4xl font-bold text-white uppercase">OYUNCU DUVARI & SOHBET</h2>
+                                <p class="text-xs text-gray-400">Üyelerin ve oyuncuların paylaşım yaptığı topluluk panosu</p>
+                            </div>
+                        </div>
+
+                        <div class="text-xs bg-black/60 px-3.5 py-2 rounded-xl border border-brand-yellow/20 flex items-center gap-2">
+                            <span class="text-gray-400">Mevcut İsim:</span>
+                            <span id="chat-active-username" class="text-brand-yellow font-bold">Misafir</span>
+                        </div>
+                    </div>
+
+                    <!-- Mesaj Gönderme Formu -->
+                    <form id="post-form" onsubmit="handlePostSubmit(event)" class="mb-8 bg-black/60 p-4 rounded-xl border border-brand-yellow/30 space-y-3">
+                        <div class="flex items-start gap-3">
+                            <div class="w-10 h-10 rounded-full bg-brand-yellow text-black font-extrabold flex items-center justify-center shrink-0 shadow-md">
+                                <i class="fa-solid fa-user-ninja"></i>
+                            </div>
+                            <div class="flex-1">
+                                <textarea id="post-input" rows="3" required placeholder="Duyuru yap, loncana üye ara veya diğer oyunculara bir selam gönder..." 
+                                    class="w-full px-4 py-3 bg-black/80 border border-brand-yellow/20 rounded-xl focus:border-brand-yellow text-white text-sm placeholder-gray-500 outline-none transition resize-none"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between pt-1">
+                            <span class="text-[11px] text-gray-500">
+                                <i class="fa-solid fa-circle-info mr-1"></i> Saygılı bir sohbet ortamı sürdürünüz.
+                            </span>
+                            <button type="submit" 
+                                class="px-5 py-2.5 bg-brand-yellow hover:bg-yellow-400 text-black font-bold rounded-xl text-sm transition flex items-center gap-2 cursor-pointer shadow-md">
+                                <span>Gönder</span>
+                                <i class="fa-solid fa-paper-plane text-xs"></i>
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="space-y-4" id="posts-container"></div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- KURAL EKLEME / DÜZENLEME MODALI (Sadece Admin için) -->
+        <div id="rule-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md hidden">
+            <div class="glass-panel p-6 md:p-8 rounded-2xl max-w-lg w-full border-glow relative shadow-2xl">
+                <div class="flex items-center justify-between pb-4 mb-4 border-b border-brand-yellow/20">
+                    <h3 id="rule-modal-title" class="font-heading text-3xl font-bold text-brand-yellow">YENİ KURAL EKLE</h3>
+                    <button onclick="closeRuleModal()" class="text-gray-400 hover:text-brand-yellow text-xl cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+
+                <form onsubmit="handleSaveRule(event)" class="space-y-4">
+                    <input type="hidden" id="rule-edit-id">
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider text-gray-300 font-bold mb-1">Kural Başlığı</label>
+                        <input type="text" id="rule-title-input" required placeholder="Örn: Hile Kullanımı Yasaktır" 
+                            class="w-full px-4 py-2.5 bg-black/60 border border-brand-yellow/30 rounded-xl focus:border-brand-yellow text-white text-sm outline-none">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider text-gray-300 font-bold mb-1">Kural Açıklaması</label>
+                        <textarea id="rule-desc-input" rows="4" required placeholder="Kuralın ayrıntılarını ve yaptırımlarını buraya yazın..." 
+                            class="w-full px-4 py-2.5 bg-black/60 border border-brand-yellow/30 rounded-xl focus:border-brand-yellow text-white text-sm outline-none resize-none"></textarea>
+                    </div>
+
+                    <div class="flex justify-end gap-3 pt-2">
+                        <button type="button" onclick="closeRuleModal()" class="px-4 py-2 bg-gray-800 text-gray-300 rounded-xl text-xs font-bold hover:bg-gray-700 transition">İptal</button>
+                        <button type="submit" class="px-5 py-2 bg-brand-yellow text-black rounded-xl text-xs font-extrabold hover:bg-yellow-400 transition shadow-md">Kaydet</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- HİKAYE DÜZENLEME MODALI (Sadece Admin için) -->
+        <div id="story-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md hidden">
+            <div class="glass-panel p-6 md:p-8 rounded-2xl max-w-2xl w-full border-glow relative shadow-2xl max-h-[90vh] overflow-y-auto">
+                <div class="flex items-center justify-between pb-4 mb-4 border-b border-brand-yellow/20">
+                    <h3 class="font-heading text-3xl font-bold text-brand-yellow"><i class="fa-solid fa-pen-to-square mr-2"></i>OYUN HİKAYESİNİ DÜZENLE</h3>
+                    <button onclick="closeStoryModal()" class="text-gray-400 hover:text-brand-yellow text-xl cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+
+                <form onsubmit="handleSaveStory(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider text-gray-300 font-bold mb-1">Özlü Söz / Alıntı</label>
+                        <input type="text" id="story-quote-input" required 
+                            class="w-full px-4 py-2.5 bg-black/60 border border-brand-yellow/30 rounded-xl focus:border-brand-yellow text-white text-sm outline-none">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider text-gray-300 font-bold mb-1">Birinci Paragraf (Giriş Hikayesi)</label>
+                        <textarea id="story-p1-input" rows="3" required 
+                            class="w-full px-4 py-2.5 bg-black/60 border border-brand-yellow/30 rounded-xl focus:border-brand-yellow text-white text-sm outline-none resize-none"></textarea>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-black/40 p-4 rounded-xl border border-brand-yellow/20">
+                        <div>
+                            <label class="block text-xs uppercase tracking-wider text-brand-yellow font-bold mb-1">Öne Çıkan Kart Başlığı</label>
+                            <input type="text" id="story-card-title-input" required 
+                                class="w-full px-4 py-2 bg-black/60 border border-brand-yellow/30 rounded-xl text-white text-xs outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs uppercase tracking-wider text-brand-yellow font-bold mb-1">Öne Çıkan Kart Açıklaması</label>
+                            <textarea id="story-card-desc-input" rows="2" required 
+                                class="w-full px-4 py-2 bg-black/60 border border-brand-yellow/30 rounded-xl text-white text-xs outline-none resize-none"></textarea>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider text-gray-300 font-bold mb-1">İkinci Paragraf (Sonuç ve Kehanet)</label>
+                        <textarea id="story-p2-input" rows="3" required 
+                            class="w-full px-4 py-2.5 bg-black/60 border border-brand-yellow/30 rounded-xl focus:border-brand-yellow text-white text-sm outline-none resize-none"></textarea>
+                    </div>
+
+                    <div class="flex justify-end gap-3 pt-2">
+                        <button type="button" onclick="closeStoryModal()" class="px-4 py-2 bg-gray-800 text-gray-300 rounded-xl text-xs font-bold hover:bg-gray-700 transition">İptal</button>
+                        <button type="submit" class="px-5 py-2 bg-brand-yellow text-black rounded-xl text-xs font-extrabold hover:bg-yellow-400 transition shadow-md">Kaydet & Yayınla</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- BİLGİLERİ DÜZENLEME MODALI (Sadece Admin için) -->
+        <div id="info-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md hidden">
+            <div class="glass-panel p-6 md:p-8 rounded-2xl max-w-xl w-full border-glow relative shadow-2xl">
+                <div class="flex items-center justify-between pb-4 mb-4 border-b border-brand-yellow/20">
+                    <h3 class="font-heading text-3xl font-bold text-brand-yellow"><i class="fa-solid fa-sliders mr-2"></i>SUNUCU BİLGİLERİNİ DÜZENLE</h3>
+                    <button onclick="closeInfoModal()" class="text-gray-400 hover:text-brand-yellow text-xl cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+
+                <form onsubmit="handleSaveInfo(event)" class="space-y-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs uppercase tracking-wider text-gray-300 font-bold mb-1">Sunucu Sürümü</label>
+                            <input type="text" id="info-version-input" required placeholder="1.20.x - 1.21.x" 
+                                class="w-full px-4 py-2.5 bg-black/60 border border-brand-yellow/30 rounded-xl text-white text-xs outline-none">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs uppercase tracking-wider text-gray-300 font-bold mb-1">Sunucu Türü</label>
+                            <input type="text" id="info-type-input" required placeholder="Custom RPG & Survival" 
+                                class="w-full px-4 py-2.5 bg-black/60 border border-brand-yellow/30 rounded-xl text-white text-xs outline-none">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs uppercase tracking-wider text-gray-300 font-bold mb-1">Lokasyon / Ping</label>
+                            <input type="text" id="info-location-input" required placeholder="Türkiye (15ms)" 
+                                class="w-full px-4 py-2.5 bg-black/60 border border-brand-yellow/30 rounded-xl text-white text-xs outline-none">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs uppercase tracking-wider text-gray-300 font-bold mb-1">Uptime Oranı</label>
+                            <input type="text" id="info-uptime-input" required placeholder="%99.9" 
+                                class="w-full px-4 py-2.5 bg-black/60 border border-brand-yellow/30 rounded-xl text-white text-xs outline-none">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider text-gray-300 font-bold mb-1">Sunucu IP Adresi</label>
+                        <input type="text" id="info-ip-input" required placeholder="play.gukhindi.com" 
+                            class="w-full px-4 py-2.5 bg-black/60 border border-brand-yellow/30 rounded-xl text-white text-xs outline-none font-mono">
+                    </div>
+
+                    <div class="flex justify-end gap-3 pt-2">
+                        <button type="button" onclick="closeInfoModal()" class="px-4 py-2 bg-gray-800 text-gray-300 rounded-xl text-xs font-bold hover:bg-gray-700 transition">İptal</button>
+                        <button type="submit" class="px-5 py-2 bg-brand-yellow text-black rounded-xl text-xs font-extrabold hover:bg-yellow-400 transition shadow-md">Kaydet & Güncelle</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- BİLGİ BİLDİRİMİ (TOAST) -->
+        <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-brand-yellow text-black font-bold px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3">
+            <i class="fa-solid fa-circle-check text-lg"></i>
+            <span id="toast-msg">İşlem başarılı!</span>
+        </div>
+
+        <!-- FOOTER -->
+        <footer class="glass-panel border-t border-brand-yellow/20 py-6 mt-12 text-center text-xs text-gray-400">
+            <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-crown text-brand-yellow text-lg"></i>
+                    <span class="font-heading text-xl font-bold text-white"><span class="text-brand-yellow">GUK</span>HINDI</span>
+                    <span>- Tüm Hakları Saklıdır.</span>
+                </div>
+                <div class="flex items-center gap-4 text-gray-400">
+                    <a href="javascript:void(0)" onclick="switchTab('duyurular')" class="hover:text-brand-yellow transition">Duyurular</a>
+                    <span>•</span>
+                    <a href="javascript:void(0)" onclick="switchTab('kurallar')" class="hover:text-brand-yellow transition">Kurallar</a>
+                    <span>•</span>
+                    <a href="javascript:void(0)" onclick="switchTab('oyuncular')" class="hover:text-brand-yellow transition">Oyuncu Alanı</a>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <script>
+        // Tanımlı Yetkili Nick'ler veya Yönetici Şifresi
+        const ADMIN_NICKS = ['GukAdmin', 'Kurucu', 'GukHindiAdmin', 'Admin', 'KralGuk'];
+        const DEFAULT_ADMIN_PASSWORD = 'guk0000964';
+
+        // Global State Variables
+        let currentUser = localStorage.getItem('gukhindi_username') || '';
+        let isAdmin = localStorage.getItem('gukhindi_is_admin') === 'true';
+
+        // Varsayılan Kurallar
+        let rules = JSON.parse(localStorage.getItem('gukhindi_rules')) || [
+            {
+                id: 1,
+                title: "Saygı ve İletişim Dili",
+                desc: "Oyunculara, yönetime ve üyelere yönelik küfür, hakaret, ırkçılık veya nefret söylemi kesinlikle yasaktır. Sohbet alanlarında saygılı bir üslup zorunludur."
+            },
+            {
+                id: 2,
+                title: "Hile ve Üçüncü Taraf Yazılım",
+                desc: "Her türlü makro, hile yazılımı veya oyuna haksız avantaj sağlayan istemci modlarının kullanımı sınırsız uzaklaştırma (perma-ban) sebebidir."
+            },
+            {
+                id: 3,
+                title: "Hata (Bug) Kullanımı",
+                desc: "Oyun içi sistem hatalarından kendi veya başkaları lehine yararlanmak yasaktır. Tespit edilen hataları yetkililere bildiren oyuncular ödüllendirilir."
+            },
+            {
+                id: 4,
+                title: "Reklam ve Ticaret",
+                desc: "Başka sunucu, site veya ticari platformların reklamını yapmak yasaktır. Gerçek para karşılığı oyun içi eşya satışı sadece resmi platformlarda serbesttir."
+            }
+        ];
+
+        // Varsayılan Hikaye
+        let serverStory = JSON.parse(localStorage.getItem('gukhindi_story')) || {
+            quote: '"Karanlık gölgeler vadiye çöktüğünde, yalnızca Altın Taç\'ın taşıyıcısı ışığı geri getirebilir..."',
+            p1: 'Binlerce yıl önce, çağların başlangıcında GukHindi Toprakları, kadim ejderhaların ve kudretli büyücülerin hüküm sürdüğü huzurlu bir diyardı. Krallık, gökyüzünden düşen saf safir ve altın enerjisiyle beslenen mistik bir Taç tarafından korunmaktaydı.',
+            cardTitle: 'Altın Taç Çağı',
+            cardDesc: 'Tacın gücü sayesinde GukHindi savaşçıları yenilmez kılınmıştı. Ancak hırs ve ihanet, krallığın en güçlü şövalyelerini kör etti. Büyülü Taç parçalara ayrılarak kasanın derinliklerine saklandı.',
+            p2: 'Büyük yıkımın ardından diyar klan bölgelerine ayrıldı. Yaratıklar zindanlardan taşarak şehirleri tehdit etmeye başladı. Şimdi kehanet yeniden uyanıyor! Tacın parçalarını toplayıp efsaneyi yeniden yazacak cesur savaşçıları bekliyoruz.'
+        };
+
+        // Varsayılan Sunucu Bilgileri
+        let serverInfo = JSON.parse(localStorage.getItem('gukhindi_info')) || {
+            version: "1.20.x - 1.21.x",
+            type: "Custom RPG & Survival",
+            location: "Türkiye (15ms)",
+            uptime: "%99.9",
+            ip: "play.gukhindi.com",
+            details: [
+                { title: "Özel Zindan Sistemleri", desc: "50+ benzersiz zindan boss'u, özel düşüş oranları ve klan zindan mücadeleleri.", icon: "fa-dungeon" },
+                { title: "Gelişmiş Ekonomi", desc: "Oyuncu pazar alanları, açık artırma sistemleri ve dengeli sunucu ekonomisi.", icon: "fa-coins" },
+                { title: "Klan & Bölge Savaşları", desc: "Haftalık klan savaşları, kale kuşatmaları ve özel bölge hakimiyeti hediyeleri.", icon: "fa-shield-halved" }
+            ]
+        };
+
+        // Varsayılan Duyurular (Sadece Yetkili Tarafından Yayınlanır)
+        let announcements = JSON.parse(localStorage.getItem('gukhindi_announcements')) || [
+            {
+                id: 101,
+                title: "🎉 GukHindi Web Portalı ve Sezon Açılışı!",
+                content: "GukHindi sunucumuzun yeni web portalı resmi olarak yayınlandı! Kurallarımızı inceleyebilir, oyuncu duvarında yerinizi alabilir ve güncellemelerden haberdar olabilirsiniz.",
+                date: "08 Ekim 2026 20:00",
+                author: "GukAdmin (Kurucu)"
+            },
+            {
+                id: 102,
+                title: "⚔️ Klan Savaşları Turnuvası Başlıyor",
+                content: "Bu hafta sonu düzenlenecek klan turnuvasında dereceye giren klanlara özel unvanlar ve oyun içi efsanevi ödüller verilecektir. Başvuruları kaçırmayın!",
+                date: "07 Ekim 2026 18:30",
+                author: "GukAdmin (Kurucu)"
+            }
+        ];
+
+        // Oyuncu Mesajları
+        let posts = JSON.parse(localStorage.getItem('gukhindi_posts')) || [
+            {
+                id: 1,
+                author: "Admin_GukHindi",
+                role: "Kurucu",
+                content: "GukHindi web portalına hoş geldiniz! Sol menüden sunucu duyurularına ve kurallara ulaşabilirsiniz.",
+                time: "Bugün 14:30",
+                likes: 12
+            }
+        ];
+
+        // DOM Yüklendiğinde
+        window.addEventListener('DOMContentLoaded', () => {
+            initCanvasParticles();
+            checkUserSession();
+            renderAnnouncements();
+            renderRules();
+            renderStory();
+            renderInfo();
+            renderPosts();
+            updateBadges();
+        });
+
+        // 1. KULLANICI / YETKİLİ OTURUM YÖNETİMİ
+        function checkUserSession() {
+            const modal = document.getElementById('login-modal');
+            const userBadge = document.getElementById('user-badge');
+            const displayUser = document.getElementById('display-user-name');
+            const chatActiveUser = document.getElementById('chat-active-username');
+            const adminIndicator = document.getElementById('admin-indicator');
+            const adminPanel = document.getElementById('admin-announcement-panel');
+            const adminAddRuleBtn = document.getElementById('admin-add-rule-btn');
+            const adminEditStoryBtn = document.getElementById('admin-edit-story-btn');
+            const adminEditInfoBtn = document.getElementById('admin-edit-info-btn');
+            const userBadgeIcon = document.getElementById('user-badge-icon');
+            const announcementAdminText = document.getElementById('announcement-admin-text');
+            const homeAdminText = document.getElementById('home-admin-status-text');
+            const sidebarAdminStatus = document.getElementById('admin-sidebar-status');
+
+            if (currentUser && currentUser.trim() !== '') {
+                modal.classList.add('opacity-0', 'pointer-events-none');
+                userBadge.classList.remove('hidden');
+                displayUser.textContent = currentUser;
+                chatActiveUser.textContent = currentUser;
+
+                if (isAdmin) {
+                    adminIndicator.classList.remove('hidden');
+                    if (adminPanel) adminPanel.classList.remove('hidden');
+                    if (adminAddRuleBtn) adminAddRuleBtn.classList.remove('hidden');
+                    if (adminEditStoryBtn) adminEditStoryBtn.classList.remove('hidden');
+                    if (adminEditInfoBtn) adminEditInfoBtn.classList.remove('hidden');
+                    userBadgeIcon.className = "fa-solid fa-user-shield text-brand-yellow text-base";
+                    if (announcementAdminText) {
+                        announcementAdminText.textContent = "Aktif (Düzenleme Yetkiniz Var)";
+                        announcementAdminText.className = "text-green-400 font-bold";
+                    }
+                    if (homeAdminText) {
+                        homeAdminText.textContent = "Aktif (Yönetici)";
+                        homeAdminText.className = "text-green-400 font-bold";
+                    }
+                    if (sidebarAdminStatus) sidebarAdminStatus.textContent = "Yönetici Modu";
+                } else {
+                    adminIndicator.classList.add('hidden');
+                    if (adminPanel) adminPanel.classList.add('hidden');
+                    if (adminAddRuleBtn) adminAddRuleBtn.classList.add('hidden');
+                    if (adminEditStoryBtn) adminEditStoryBtn.classList.add('hidden');
+                    if (adminEditInfoBtn) adminEditInfoBtn.classList.add('hidden');
+                    userBadgeIcon.className = "fa-solid fa-user-circle text-base";
+                    if (announcementAdminText) {
+                        announcementAdminText.textContent = "Pasif (Sadece İzleme)";
+                        announcementAdminText.className = "text-red-400 font-bold";
+                    }
+                    if (homeAdminText) {
+                        homeAdminText.textContent = "Pasif (Oyuncu)";
+                        homeAdminText.className = "text-gray-400 font-bold";
+                    }
+                    if (sidebarAdminStatus) sidebarAdminStatus.textContent = "Oyuncu Modu";
+                }
+            } else {
+                modal.classList.remove('opacity-0', 'pointer-events-none');
+                userBadge.classList.add('hidden');
+            }
+
+            renderRules();
+            renderStory();
+            renderInfo();
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const usernameInput = document.getElementById('username-input').value.trim();
+            const adminKeyInput = document.getElementById('admin-key-input').value.trim();
+
+            if (!usernameInput) return;
+
+            currentUser = usernameInput;
+
+            // Admin Yetki Kontrolü: Nick eşleşmesi veya Şifre eşleşmesi
+            const isNickMatch = ADMIN_NICKS.some(nick => nick.toLowerCase() === usernameInput.toLowerCase());
+            const isKeyMatch = adminKeyInput === DEFAULT_ADMIN_PASSWORD;
+
+            if (isNickMatch || isKeyMatch) {
+                isAdmin = true;
+                showToast(`Yetkili girişi başarılı! Hoş geldin Yönetici ${currentUser}`);
+            } else {
+                isAdmin = false;
+                showToast(`Hoş geldin ${currentUser}! Sunucuya giriş yapıldı.`);
+            }
+
+            localStorage.setItem('gukhindi_username', currentUser);
+            localStorage.setItem('gukhindi_is_admin', isAdmin ? 'true' : 'false');
+
+            checkUserSession();
+        }
+
+        function logout() {
+            currentUser = '';
+            isAdmin = false;
+            localStorage.removeItem('gukhindi_username');
+            localStorage.removeItem('gukhindi_is_admin');
+            checkUserSession();
+            showToast("Çıkış yapıldı.");
+        }
+
+        // 4. HİKAYE YÖNETİMİ
+        function renderStory() {
+            const container = document.getElementById('story-container');
+            if (!container) return;
+
+            container.innerHTML = `
+                <p class="text-lg font-semibold text-brand-yellow italic border-l-4 border-brand-yellow pl-4 py-1">
+                    ${escapeHTML(serverStory.quote)}
+                </p>
+
+                <p>${escapeHTML(serverStory.p1)}</p>
+
+                <div class="my-6 p-6 bg-black/60 rounded-xl border border-brand-yellow/30 flex flex-col md:flex-row items-center gap-6">
+                    <i class="fa-solid fa-crown text-6xl text-brand-yellow shrink-0 crown-icon"></i>
+                    <div>
+                        <h4 class="font-heading text-2xl text-white font-bold mb-1">${escapeHTML(serverStory.cardTitle)}</h4>
+                        <p class="text-sm text-gray-400">${escapeHTML(serverStory.cardDesc)}</p>
+                    </div>
+                </div>
+
+                <p>${escapeHTML(serverStory.p2)}</p>
+            `;
+        }
+
+        function openEditStoryModal() {
+            if (!isAdmin) return;
+            document.getElementById('story-quote-input').value = serverStory.quote;
+            document.getElementById('story-p1-input').value = serverStory.p1;
+            document.getElementById('story-card-title-input').value = serverStory.cardTitle;
+            document.getElementById('story-card-desc-input').value = serverStory.cardDesc;
+            document.getElementById('story-p2-input').value = serverStory.p2;
+            document.getElementById('story-modal').classList.remove('hidden');
+        }
+
+        function closeStoryModal() {
+            document.getElementById('story-modal').classList.add('hidden');
+        }
+
+        function handleSaveStory(e) {
+            e.preventDefault();
+            if (!isAdmin) return;
+
+            serverStory = {
+                quote: document.getElementById('story-quote-input').value.trim(),
+                p1: document.getElementById('story-p1-input').value.trim(),
+                cardTitle: document.getElementById('story-card-title-input').value.trim(),
+                cardDesc: document.getElementById('story-card-desc-input').value.trim(),
+                p2: document.getElementById('story-p2-input').value.trim()
+            };
+
+            localStorage.setItem('gukhindi_story', JSON.stringify(serverStory));
+            closeStoryModal();
+            renderStory();
+            showToast("Oyun hikayesi başarıyla güncellendi!");
+        }
+
+        // 5. SUNUCU BİLGİLERİ YÖNETİMİ
+        function renderInfo() {
+            const statsContainer = document.getElementById('info-stats-container');
+            const detailsContainer = document.getElementById('info-details-container');
+            if (!statsContainer || !detailsContainer) return;
+
+            statsContainer.innerHTML = `
+                <div class="bg-black/50 p-4 rounded-xl border border-brand-yellow/20 text-center">
+                    <p class="text-xs text-gray-400 uppercase tracking-wider">Sunucu Sürümü</p>
+                    <p class="font-heading text-3xl font-bold text-brand-yellow mt-1">${escapeHTML(serverInfo.version)}</p>
+                </div>
+                <div class="bg-black/50 p-4 rounded-xl border border-brand-yellow/20 text-center">
+                    <p class="text-xs text-gray-400 uppercase tracking-wider">Sunucu Türü</p>
+                    <p class="font-heading text-3xl font-bold text-white mt-1">${escapeHTML(serverInfo.type)}</p>
+                </div>
+                <div class="bg-black/50 p-4 rounded-xl border border-brand-yellow/20 text-center">
+                    <p class="text-xs text-gray-400 uppercase tracking-wider">Lokasyon / Ping</p>
+                    <p class="font-heading text-3xl font-bold text-green-400 mt-1">${escapeHTML(serverInfo.location)}</p>
+                </div>
+                <div class="bg-black/50 p-4 rounded-xl border border-brand-yellow/20 text-center">
+                    <p class="text-xs text-gray-400 uppercase tracking-wider">Uptime Oranı</p>
+                    <p class="font-heading text-3xl font-bold text-brand-yellow mt-1">${escapeHTML(serverInfo.uptime)}</p>
+                </div>
+            `;
+
+            detailsContainer.innerHTML = serverInfo.details.map(item => `
+                <div class="bg-black/50 p-6 rounded-2xl border border-brand-yellow/20 hover:border-brand-yellow/50 transition">
+                    <div class="w-12 h-12 rounded-xl bg-brand-yellow/10 border border-brand-yellow/30 flex items-center justify-center text-brand-yellow text-2xl mb-4">
+                        <i class="fa-solid ${item.icon}"></i>
+                    </div>
+                    <h3 class="font-heading text-2xl text-white font-bold mb-2">${escapeHTML(item.title)}</h3>
+                    <p class="text-gray-400 text-xs leading-relaxed">${escapeHTML(item.desc)}</p>
+                </div>
+            `).join('');
+        }
+
+        function openEditInfoModal() {
+            if (!isAdmin) return;
+            document.getElementById('info-version-input').value = serverInfo.version;
+            document.getElementById('info-type-input').value = serverInfo.type;
+            document.getElementById('info-location-input').value = serverInfo.location;
+            document.getElementById('info-uptime-input').value = serverInfo.uptime;
+            document.getElementById('info-ip-input').value = serverInfo.ip;
+            document.getElementById('info-modal').classList.remove('hidden');
+        }
+
+        function closeInfoModal() {
+            document.getElementById('info-modal').classList.add('hidden');
+        }
+
+        function handleSaveInfo(e) {
+            e.preventDefault();
+            if (!isAdmin) return;
+
+            serverInfo.version = document.getElementById('info-version-input').value.trim();
+            serverInfo.type = document.getElementById('info-type-input').value.trim();
+            serverInfo.location = document.getElementById('info-location-input').value.trim();
+            serverInfo.uptime = document.getElementById('info-uptime-input').value.trim();
+            serverInfo.ip = document.getElementById('info-ip-input').value.trim();
+
+            localStorage.setItem('gukhindi_info', JSON.stringify(serverInfo));
+            closeInfoModal();
+            renderInfo();
+            showToast("Sunucu bilgileri güncellendi!");
+        }
+
+        // 2. DUYURU YÖNETİMİ (Sadece Yetkili Ekleme Yapabilir)
+        function handleAnnouncementSubmit(e) {
+            e.preventDefault();
+            if (!isAdmin) {
+                showToast("Sadece sunucu yetkilisi duyuru yapabilir!");
+                return;
+            }
+
+            const titleInput = document.getElementById('announcement-title');
+            const contentInput = document.getElementById('announcement-content');
+
+            const title = titleInput.value.trim();
+            const content = contentInput.value.trim();
+
+            if (!title || !content) return;
+
+            const now = new Date();
+            const dateStr = `${now.getDate().toString().padStart(2, '0')} Ekim 2026 ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+
+            const newAnn = {
+                id: Date.now(),
+                title: title,
+                content: content,
+                date: dateStr,
+                author: `${currentUser} (Yönetici)`
+            };
+
+            announcements.unshift(newAnn);
+            localStorage.setItem('gukhindi_announcements', JSON.stringify(announcements));
+
+            titleInput.value = '';
+            contentInput.value = '';
+
+            renderAnnouncements();
+            updateBadges();
+            showToast("Yeni duyuru başarıyla yayınlandı!");
+        }
+
+        function deleteAnnouncement(id) {
+            if (!isAdmin) return;
+            announcements = announcements.filter(a => a.id !== id);
+            localStorage.setItem('gukhindi_announcements', JSON.stringify(announcements));
+            renderAnnouncements();
+            updateBadges();
+            showToast("Duyuru silindi.");
+        }
+
+        function renderAnnouncements() {
+            const container = document.getElementById('announcements-container');
+            if (!container) return;
+
+            if (announcements.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 text-gray-500">
+                        <i class="fa-solid fa-bullhorn text-4xl mb-2 text-brand-yellow/40"></i>
+                        <p>Henüz yayınlanmış resmi bir duyuru bulunmamaktadır.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = announcements.map(ann => `
+                <div class="bg-black/60 p-6 rounded-2xl border border-brand-yellow/30 hover:border-brand-yellow/60 transition relative overflow-hidden group">
+                    <div class="flex items-start justify-between gap-4 mb-3">
+                        <div class="flex items-center gap-3">
+                            <span class="p-2 bg-brand-yellow/10 border border-brand-yellow/30 rounded-lg text-brand-yellow">
+                                <i class="fa-solid fa-bullhorn text-lg"></i>
+                            </span>
+                            <div>
+                                <h3 class="font-heading text-2xl font-bold text-white group-hover:text-brand-yellow transition">${escapeHTML(ann.title)}</h3>
+                                <p class="text-[11px] text-gray-400">
+                                    <i class="fa-solid fa-user-shield text-brand-yellow mr-1"></i> ${escapeHTML(ann.author)} 
+                                    <span class="mx-1">•</span> 
+                                    <i class="fa-regular fa-clock mr-1"></i> ${ann.date}
+                                </p>
+                            </div>
+                        </div>
+
+                        ${isAdmin ? `
+                            <button onclick="deleteAnnouncement(${ann.id})" class="text-gray-500 hover:text-red-400 transition p-2 cursor-pointer" title="Duyuruyu Sil">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        ` : ''}
+                    </div>
+
+                    <p class="text-gray-300 text-sm leading-relaxed border-t border-brand-yellow/10 pt-3">${escapeHTML(ann.content)}</p>
+                </div>
+            `).join('');
+        }
+
+        // 3. KURAL DÜZENLEME & YÖNETİMİ (Sadece Yetkili Düzenler)
+        function renderRules() {
+            const container = document.getElementById('rules-container');
+            if (!container) return;
+
+            container.innerHTML = rules.map((rule, idx) => `
+                <div class="bg-black/50 p-5 rounded-xl border border-brand-yellow/20 hover:border-brand-yellow/50 transition relative group">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center gap-3 text-brand-yellow font-bold text-lg">
+                            <span class="w-7 h-7 rounded-lg bg-brand-yellow text-black flex items-center justify-center text-sm font-extrabold shrink-0">${idx + 1}</span>
+                            <span>${escapeHTML(rule.title)}</span>
+                        </div>
+
+                        ${isAdmin ? `
+                            <div class="flex items-center gap-1 opacity-90">
+                                <button onclick="openEditRuleModal(${rule.id})" class="text-gray-400 hover:text-brand-yellow p-1.5 cursor-pointer" title="Kuralı Düzenle">
+                                    <i class="fa-solid fa-pen text-xs"></i>
+                                </button>
+                                <button onclick="deleteRule(${rule.id})" class="text-gray-400 hover:text-red-400 p-1.5 cursor-pointer" title="Kuralı Sil">
+                                    <i class="fa-solid fa-trash text-xs"></i>
+                                </button>
+                            </div>
+                        ` : ''}
+                    </div>
+                    <p class="text-sm text-gray-300 leading-relaxed">${escapeHTML(rule.desc)}</p>
+                </div>
+            `).join('');
+        }
+
+        function openAddRuleModal() {
+            document.getElementById('rule-modal-title').textContent = "YENİ KURAL EKLE";
+            document.getElementById('rule-edit-id').value = '';
+            document.getElementById('rule-title-input').value = '';
+            document.getElementById('rule-desc-input').value = '';
+            document.getElementById('rule-modal').classList.remove('hidden');
+        }
+
+        function openEditRuleModal(id) {
+            const rule = rules.find(r => r.id === id);
+            if (!rule) return;
+
+            document.getElementById('rule-modal-title').textContent = "KURALI DÜZENLE";
+            document.getElementById('rule-edit-id').value = rule.id;
+            document.getElementById('rule-title-input').value = rule.title;
+            document.getElementById('rule-desc-input').value = rule.desc;
+            document.getElementById('rule-modal').classList.remove('hidden');
+        }
+
+        function closeRuleModal() {
+            document.getElementById('rule-modal').classList.add('hidden');
+        }
+
+        function handleSaveRule(e) {
+            e.preventDefault();
+            if (!isAdmin) return;
+
+            const editId = document.getElementById('rule-edit-id').value;
+            const title = document.getElementById('rule-title-input').value.trim();
+            const desc = document.getElementById('rule-desc-input').value.trim();
+
+            if (!title || !desc) return;
+
+            if (editId) {
+                // Güncelleme
+                rules = rules.map(r => r.id == editId ? { ...r, title, desc } : r);
+                showToast("Kural başarıyla güncellendi.");
+            } else {
+                // Yeni Ekleme
+                const newRule = {
+                    id: Date.now(),
+                    title,
+                    desc
+                };
+                rules.push(newRule);
+                showToast("Yeni kural eklendi.");
+            }
+
+            localStorage.setItem('gukhindi_rules', JSON.stringify(rules));
+            closeRuleModal();
+            renderRules();
+        }
+
+        function deleteRule(id) {
+            if (!isAdmin) return;
+            rules = rules.filter(r => r.id !== id);
+            localStorage.setItem('gukhindi_rules', JSON.stringify(rules));
+            renderRules();
+            showToast("Kural silindi.");
+        }
+
+        // 4. OYUNCU DUVARI & SOHBET
+        function handlePostSubmit(e) {
+            e.preventDefault();
+            if (!currentUser) {
+                showToast("Lütfen önce isminizle giriş yapın!");
+                checkUserSession();
+                return;
+            }
+
+            const input = document.getElementById('post-input');
+            const content = input.value.trim();
+            if (!content) return;
+
+            const now = new Date();
+            const timeStr = `Bugün ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+
+            const newPost = {
+                id: Date.now(),
+                author: currentUser,
+                role: isAdmin ? 'Kurucu/Yönetici' : 'Oyuncu',
+                content: content,
+                time: timeStr,
+                likes: 0
+            };
+
+            posts.unshift(newPost);
+            localStorage.setItem('gukhindi_posts', JSON.stringify(posts));
+
+            input.value = '';
+            renderPosts();
+            updateBadges();
+            showToast("Mesajınız gönderildi!");
+        }
+
+        function renderPosts() {
+            const container = document.getElementById('posts-container');
+            if (!container) return;
+
+            if (posts.length === 0) {
+                container.innerHTML = `<div class="text-center py-12 text-gray-500"><p>Henüz mesaj yok. İlk mesajı sen yaz!</p></div>`;
+                return;
+            }
+
+            container.innerHTML = posts.map(post => `
+                <div class="bg-black/50 p-5 rounded-xl border border-brand-yellow/20 flex flex-col gap-3">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-brand-yellow/20 border border-brand-yellow/40 flex items-center justify-center text-brand-yellow font-extrabold">
+                                <i class="fa-solid fa-user-ninja"></i>
+                            </div>
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <span class="font-bold text-white text-sm">${escapeHTML(post.author)}</span>
+                                    <span class="px-2 py-0.5 text-[10px] uppercase font-bold rounded ${post.role.includes('Yönetici') || post.role.includes('Kurucu') ? 'bg-red-500/20 text-red-400 border border-red-500/30' : 'bg-brand-yellow/10 text-brand-yellow border border-brand-yellow/20'}">
+                                        ${post.role}
+                                    </span>
+                                </div>
+                                <span class="text-[11px] text-gray-500">${post.time}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-200 leading-relaxed">${escapeHTML(post.content)}</p>
+                    <div class="flex items-center justify-between pt-2 border-t border-brand-yellow/10 text-xs">
+                        <button onclick="likePost(${post.id})" class="flex items-center gap-1.5 text-gray-400 hover:text-brand-yellow transition font-semibold">
+                            <i class="fa-regular fa-thumbs-up"></i>
+                            <span>Beğen (${post.likes})</span>
+                        </button>
+                        <span class="text-[11px] text-gray-500">#GukHindiGamer</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function likePost(id) {
+            posts = posts.map(p => p.id === id ? { ...p, likes: p.likes + 1 } : p);
+            localStorage.setItem('gukhindi_posts', JSON.stringify(posts));
+            renderPosts();
+        }
+
+        // 5. GENEL MENÜ VE YARDIMCI FONKSİYONLAR
+        function switchTab(tabId) {
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.add('hidden'));
+
+            const targetTab = document.getElementById(`tab-${tabId}`);
+            if (targetTab) targetTab.classList.remove('hidden');
+
+            const navBtns = document.querySelectorAll('.nav-btn');
+            navBtns.forEach(btn => {
+                if (btn.getAttribute('data-tab') === tabId) {
+                    btn.classList.add('bg-brand-yellow/20', 'text-brand-yellow', 'border-brand-yellow/30');
+                    btn.classList.remove('text-gray-300');
+                } else {
+                    btn.classList.remove('bg-brand-yellow/20', 'text-brand-yellow', 'border-brand-yellow/30');
+                    btn.classList.add('text-gray-300');
+                }
+            });
+
+            const sidebar = document.getElementById('sidebar');
+            if (!sidebar.classList.contains('-translate-x-full')) {
+                toggleSidebar();
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+
+            const isOpen = !sidebar.classList.contains('-translate-x-full');
+
+            if (isOpen) {
+                sidebar.classList.add('-translate-x-full');
+                overlay.classList.add('opacity-0', 'pointer-events-none');
+            } else {
+                sidebar.classList.remove('-translate-x-full');
+                overlay.classList.remove('opacity-0', 'pointer-events-none');
+            }
+        }
+
+        function updateBadges() {
+            const annBadge = document.getElementById('announcement-count-badge');
+            const chatBadge = document.getElementById('chat-count-badge');
+            if (annBadge) annBadge.textContent = announcements.length;
+            if (chatBadge) chatBadge.textContent = posts.length;
+        }
+
+        function escapeHTML(str) {
+            return str.replace(/[&<>'"]/g, 
+                tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+            );
+        }
+
+        function copyIP(ip) {
+            const dummy = document.createElement('textarea');
+            document.body.appendChild(dummy);
+            dummy.value = ip;
+            dummy.select();
+            document.execCommand('copy');
+            document.body.removeChild(dummy);
+            showToast("Sunucu IP adresi panoya kopyalandı!");
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-msg');
+            toastMsg.textContent = msg;
+
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        // Parçacık Animasyonu
+        function initCanvasParticles() {
+            const canvas = document.getElementById('bg-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            let width = canvas.width = window.innerWidth;
+            let height = canvas.height = window.innerHeight;
+
+            window.addEventListener('resize', () => {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            });
+
+            const particles = Array.from({ length: 45 }, () => ({
+                x: Math.random() * width,
+                y: Math.random() * height,
+                radius: Math.random() * 2 + 0.5,
+                vy: -Math.random() * 0.6 - 0.2,
+                vx: (Math.random() - 0.5) * 0.4,
+                alpha: Math.random() * 0.7 + 0.2
+            }));
+
+            function animate() {
+                ctx.clearRect(0, 0, width, height);
+
+                particles.forEach(p => {
+                    p.y += p.vy;
+                    p.x += p.vx;
+
+                    if (p.y < 0) {
+                        p.y = height;
+                        p.x = Math.random() * width;
+                    }
+
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(255, 230, 0, ${p.alpha})`;
+                    ctx.shadowBlur = 10;
+                    ctx.shadowColor = '#FFE600';
+                    ctx.fill();
+                });
+
+                requestAnimationFrame(animate);
+            }
+
+            animate();
+        }
+    </script>
+</body>
+</html>
